@@ -1,15 +1,12 @@
-name: Auto approve PRs by dependabot
-
-# Trigger the workflow on pull request
-on: pull_request_target
-
+name: Automatic pull request review
+on: [pull_request]
 jobs:
-  autoapprove:
-    name: Auto-Approve a PR by dependabot
+  automate-pullrequest-review:
     runs-on: ubuntu-latest
     steps:
-      - name: Auto approve
-        uses: cognitedata/auto-approve-dependabot-action@v3.0.1
-        if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+      - name: Approve pull request
+        uses: andrewmusgrave/automatic-pull-request-review@0.0.5
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          event: APPROVE
+          body: 'Thank you dependabot 🎊'
