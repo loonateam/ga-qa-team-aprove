@@ -1,23 +1,17 @@
-# Jenkins job trigger action
+# Manage QA approves
 
-Github Action to trigger jenkins job
+Github Action to manage QA approves
 
 ### Inputs
 | name | required | default |
 | ---- | -------- | ----------- |
 | githubToken  | `false`   | `${{ github.token }}` |
-| jenkinsJob | `false` | `github-loona-build-feature` |
-| jenkinsUser | `true` | - |
-| jenkinsToken | `true` | - |
-| jenkinsUrl | `true` | -  |
-| defaultBranch | `false` | `trunk` |
+| requiredTeams | `false` | `''` |
 
 ### Example
 ```yaml
-- name: Trigger Jenkins Build Job ⏰
-  uses: loonateam/trigger-jenkins-job@main
+- name: Check QA Approves
+  uses: loonateam/ga-qa-team-aprove@v1.0
     with:
-      jenkinsUser: ${{ secrets.JENKINS_USER }}
-      jenkinsToken: ${{ secrets.JENKINS_SECRET }}
-      jenkinsUrl: ${{ secrets.JENKINS_URL }}
+      requiredTeams: 'team-qa'
 ```
