@@ -1,10 +1,12 @@
 name: Test
+
 on:
   pull_request_review:
     types: [submitted]
 
 jobs:
   approved:
+    if: github.event.review.state == 'approved'
     name: Run action
     runs-on: ubuntu-latest
 
