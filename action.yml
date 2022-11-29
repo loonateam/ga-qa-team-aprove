@@ -1,0 +1,21 @@
+name: 'qa-team-aprove'
+author: 'wanderbon'
+description: 'Github Action to manage QA approves'
+
+inputs:
+  githubToken:
+    description: GitHub Token
+    required: false
+    default: ${{ github.token }}
+  requiredTeams:
+    description: List of required teams
+    required: false
+    default: ''
+
+outputs:
+  users:
+    description: 'Users from requiredTeams who approved pr'
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

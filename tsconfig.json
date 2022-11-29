@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "ES2015",
+    "moduleResolution": "Node",
+    "rootDir": ".",
+    "outDir": "dist",
+    "alwaysStrict": true,
+    "sourceMap": false,
+  },
+  "include": [
+    "src/**/*",
+    "__tests__/**/*"
+  ]
+}
