@@ -9741,8 +9741,9 @@ const run = (input) => __awaiter(void 0, void 0, void 0, function* () {
         return '';
     const client = (0,github.getOctokit)(githubToken);
     try {
-        const teams = yield client.rest.teams.list({
+        const teams = yield client.rest.teams.listMembersInOrg({
             org: github.context.payload.organization.login,
+            team_slug: 'team-qa'
         });
         (0,core.info)(`Teams: ${JSON.stringify(teams)}`);
     }

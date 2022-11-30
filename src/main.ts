@@ -33,8 +33,9 @@ const run = async (input: Input) => {
   const client = getOctokit(githubToken);
 
   try {
-    const teams = await client.rest.teams.list({
+    const teams = await client.rest.teams.listMembersInOrg({
       org: context.payload.organization.login,
+      team_slug: 'team-qa'
     })
 
     info(`Teams: ${JSON.stringify(teams)}`);
