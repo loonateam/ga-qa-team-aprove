@@ -9718,9 +9718,13 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 const isOnTeam = ({ client, author, teams }) => __awaiter(void 0, void 0, void 0, function* () {
     for (const team of teams) {
         try {
+            const teams = yield client.rest.teams.list({
+                org: github.context.payload.organization.login,
+            });
+            (0,core.info)(`Teams: ${JSON.stringify(teams)}`);
             const response = yield client.rest.teams.getMembershipForUserInOrg({
-                org: github.context.payload.repository.owner.login,
-                team_slug: team,
+                org: github.context.payload.organization.login,
+                team_slug: `@${team}`,
                 username: author,
             });
             if (response.status == 200 && response.data.state != "pending") {

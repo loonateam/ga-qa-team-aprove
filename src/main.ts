@@ -6,9 +6,15 @@ import type { Input, IsOnTeamParams } from './types';
 const isOnTeam = async ({ client, author, teams }: IsOnTeamParams) => {
   for (const team of teams) {
     try {
+      const teams = await client.rest.teams.list({
+        org: context.payload.organization.login,
+      })
+
+      info(`Teams: ${JSON.stringify(teams)}`);
+
       const response = await client.rest.teams.getMembershipForUserInOrg({
-        org: context.payload.repository.owner.login,
-        team_slug: team,
+        org: context.payload.organization.login,
+        team_slug: `@${team}`,
         username: author,
       });
 
