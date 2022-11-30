@@ -9719,6 +9719,8 @@ const run = (input) => __awaiter(void 0, void 0, void 0, function* () {
     // info(`context: ${JSON.stringify(context)}`);
     const { githubToken, requiredUsers } = input;
     const users = requiredUsers.split(',');
+    (0,core.info)(`RequiredUsers ${requiredUsers}`);
+    (0,core.info)(`SplittedRequiredUsers ${JSON.stringify(users)}`);
     if (!users.length)
         return '';
     const client = (0,github.getOctokit)(githubToken);
@@ -9728,6 +9730,7 @@ const run = (input) => __awaiter(void 0, void 0, void 0, function* () {
             repo: github.context.repo.repo,
             pull_number: github.context.payload.pull_request.number,
         });
+        (0,core.info)(`Reviews ${JSON.stringify(reviews, null, 2)}`);
         const approvesFromRequiredTeams = reviews.data.filter((review) => review.state.toLowerCase() === 'approved' && users.includes(review.user.login));
         if (!approvesFromRequiredTeams.length) {
             const usersWhoApproved = approvesFromRequiredTeams.map((reivew) => reivew.user.login).join(', ');

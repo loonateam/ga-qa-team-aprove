@@ -8,6 +8,9 @@ const run = async (input: Input) => {
   const { githubToken, requiredUsers } = input;
   const users = requiredUsers.split(',');
 
+  info(`RequiredUsers ${requiredUsers}`);
+  info(`SplittedRequiredUsers ${JSON.stringify(users)}`);
+
   if (!users.length) return '';
 
   const client = getOctokit(githubToken);
@@ -18,6 +21,8 @@ const run = async (input: Input) => {
       repo: context.repo.repo,
       pull_number: context.payload.pull_request.number,
     });
+
+    info(`Reviews ${JSON.stringify(reviews, null, 2)}`);
 
     const approvesFromRequiredTeams = reviews.data.filter((review) => review.state.toLowerCase() === 'approved' && users.includes(review.user.login));
 
