@@ -24,7 +24,7 @@ const run = async (input: Input) => {
 
     info(`Reviews ${JSON.stringify(reviews, null, 2)}`);
 
-    const approvesFromRequiredTeams = reviews.data.filter((review) => {
+    const approvesFromRequiredUser = reviews.data.filter((review) => {
       const isApprovedState = review.state.toLowerCase() === 'approved';
       const isRequiredUser = users.includes(review.user.login);
       info(`Is approved state: ${review.state.toLowerCase()} === 'approved': ${isApprovedState}`);
@@ -33,8 +33,10 @@ const run = async (input: Input) => {
       return isApprovedState && isRequiredUser;
     });
 
-    if (!approvesFromRequiredTeams.length) {
-      const usersWhoApproved = approvesFromRequiredTeams.map((reivew) => reivew.user.login).join(', ');
+    info(`ApprovesFromRequiredUser: ${JSON.stringify(approvesFromRequiredUser)}`);
+
+    if (!approvesFromRequiredUser.length) {
+      const usersWhoApproved = approvesFromRequiredUser.map((reivew) => reivew.user.login).join(', ');
 
       info(`Users from ${requiredUsers} who approved pr: ${usersWhoApproved}`);
 
