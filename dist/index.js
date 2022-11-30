@@ -9719,7 +9719,7 @@ const isOnTeam = ({ client, author, teams }) => __awaiter(void 0, void 0, void 0
     for (const team of teams) {
         try {
             const response = yield client.rest.teams.getMembershipForUserInOrg({
-                org: github.context.payload.organization.login,
+                org: github.context.payload.repository.owner.login,
                 team_slug: team,
                 username: author,
             });
@@ -9734,6 +9734,7 @@ const isOnTeam = ({ client, author, teams }) => __awaiter(void 0, void 0, void 0
     return false;
 });
 const run = (input) => __awaiter(void 0, void 0, void 0, function* () {
+    (0,core.info)(`context: ${github.context}`);
     const { githubToken, requiredTeams } = input;
     const teams = requiredTeams.split(',');
     if (!teams.length)

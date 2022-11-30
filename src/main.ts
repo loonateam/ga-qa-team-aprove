@@ -1,4 +1,4 @@
-import { setOutput, info } from '@actions/core';
+import { info } from '@actions/core';
 import { getOctokit, context } from '@actions/github';
 
 import type { Input, IsOnTeamParams } from './types';
@@ -7,7 +7,7 @@ const isOnTeam = async ({ client, author, teams }: IsOnTeamParams) => {
   for (const team of teams) {
     try {
       const response = await client.rest.teams.getMembershipForUserInOrg({
-        org: context.payload.organization.login,
+        org: context.payload.repository.owner.login,
         team_slug: team,
         username: author,
       });
@@ -24,6 +24,7 @@ const isOnTeam = async ({ client, author, teams }: IsOnTeamParams) => {
 }
 
 const run = async (input: Input) => {
+  info(`context: ${context}`);
   const { githubToken, requiredTeams } = input;
   const teams = requiredTeams.split(',');
 
