@@ -7,14 +7,14 @@ inputs:
     description: GitHub Token
     required: false
     default: ${{ github.token }}
-  requiredTeams:
-    description: List of required teams
+  requiredUsers:
+    description: List of required users
     required: false
     default: ''
 
 outputs:
   users:
-    description: 'Users from requiredTeams who approved pr'
+    description: 'Users from requiredUsers who approved pr'
 
 runs:
   using: 'node16'

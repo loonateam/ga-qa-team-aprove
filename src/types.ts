@@ -2,7 +2,7 @@ import type { getOctokit } from '@actions/github';
 
 export type Input = {
   githubToken: string;
-  requiredTeams: string;
+  requiredUsers: string;
 }
 
 export type Headers = {

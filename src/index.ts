@@ -4,7 +4,7 @@ import type { Input } from './types';
 
 const input: Input = {
   githubToken: getInput('githubToken'),
-  requiredTeams: getInput('requiredTeams'),
+  requiredUsers: getInput('requiredUsers'),
 };
 
 Main.run(input)

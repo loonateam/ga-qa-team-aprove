@@ -9715,54 +9715,23 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 
-const isOnTeam = ({ client, author, teams }) => __awaiter(void 0, void 0, void 0, function* () {
-    for (const team of teams) {
-        try {
-            const response = yield client.rest.teams.getMembershipForUserInOrg({
-                org: github.context.payload.organization.login,
-                team_slug: `@${team}`,
-                username: author,
-            });
-            if (response.status == 200 && response.data.state != "pending") {
-                return true;
-            }
-        }
-        catch (error) {
-            (0,core.info)(`Error when checking memebership for ${author} in ${team} team. Message: ${error.message}`);
-        }
-    }
-    return false;
-});
 const run = (input) => __awaiter(void 0, void 0, void 0, function* () {
     // info(`context: ${JSON.stringify(context)}`);
-    const { githubToken, requiredTeams } = input;
-    const teams = requiredTeams.split(',');
-    if (!teams.length)
+    const { githubToken, requiredUsers } = input;
+    const users = requiredUsers.split(',');
+    if (!users.length)
         return '';
     const client = (0,github.getOctokit)(githubToken);
-    try {
-        const user = yield client.rest.users.getByUsername({
-            'username': 'ViktorKudryashev',
-        });
-        (0,core.info)(`User: ${JSON.stringify(user)}`);
-    }
-    catch (err) {
-        (0,core.info)(`User err: ${err.message}`);
-    }
     try {
         const reviews = yield client.rest.pulls.listReviews({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
             pull_number: github.context.payload.pull_request.number,
         });
-        const approvesFromRequiredTeams = reviews.data.filter((review) => review.state.toLowerCase() === 'approved' && isOnTeam({
-            client,
-            author: review.user.login,
-            teams
-        }));
+        const approvesFromRequiredTeams = reviews.data.filter((review) => review.state.toLowerCase() === 'approved' && users.includes(review.user.login));
         if (!approvesFromRequiredTeams.length) {
             const usersWhoApproved = approvesFromRequiredTeams.map((reivew) => reivew.user.login).join(', ');
-            (0,core.info)(`Users from ${requiredTeams} who approved pr: ${usersWhoApproved}`);
+            (0,core.info)(`Users from ${requiredUsers} who approved pr: ${usersWhoApproved}`);
             return usersWhoApproved;
         }
         else {
@@ -9784,7 +9753,7 @@ const Main = {
 
 const input = {
     githubToken: (0,core.getInput)('githubToken'),
-    requiredTeams: (0,core.getInput)('requiredTeams'),
+    requiredUsers: (0,core.getInput)('requiredUsers'),
 };
 main.run(input)
     .then((users) => {
