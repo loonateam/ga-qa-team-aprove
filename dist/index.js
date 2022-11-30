@@ -9741,14 +9741,13 @@ const run = (input) => __awaiter(void 0, void 0, void 0, function* () {
         return '';
     const client = (0,github.getOctokit)(githubToken);
     try {
-        const teams = yield client.rest.teams.listMembersInOrg({
-            org: github.context.payload.organization.login,
-            team_slug: 'team-qa'
+        const user = yield client.rest.users.getByUsername({
+            'username': 'ViktorKudryashev',
         });
-        (0,core.info)(`Teams: ${JSON.stringify(teams)}`);
+        (0,core.info)(`User: ${JSON.stringify(user)}`);
     }
     catch (err) {
-        (0,core.info)(`Teams err: ${err.message}`);
+        (0,core.info)(`User err: ${err.message}`);
     }
     try {
         const reviews = yield client.rest.pulls.listReviews({

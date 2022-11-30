@@ -33,14 +33,13 @@ const run = async (input: Input) => {
   const client = getOctokit(githubToken);
 
   try {
-    const teams = await client.rest.teams.listMembersInOrg({
-      org: context.payload.organization.login,
-      team_slug: 'team-qa'
+    const user = await client.rest.users.getByUsername({
+      'username': 'ViktorKudryashev',
     })
 
-    info(`Teams: ${JSON.stringify(teams)}`);
+    info(`User: ${JSON.stringify(user)}`);
   } catch (err) {
-    info(`Teams err: ${err.message}`);
+    info(`User err: ${err.message}`);
   }
 
   try {
