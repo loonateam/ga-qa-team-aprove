@@ -9731,7 +9731,13 @@ const run = (input) => __awaiter(void 0, void 0, void 0, function* () {
             pull_number: github.context.payload.pull_request.number,
         });
         (0,core.info)(`Reviews ${JSON.stringify(reviews, null, 2)}`);
-        const approvesFromRequiredTeams = reviews.data.filter((review) => review.state.toLowerCase() === 'approved' && users.includes(review.user.login));
+        const approvesFromRequiredTeams = reviews.data.filter((review) => {
+            const isApprovedState = review.state.toLowerCase() === 'approved';
+            const isRequiredUser = users.includes(review.user.login);
+            (0,core.info)(`Is approved state: ${review.state.toLowerCase()} === 'approved': ${isApprovedState}`);
+            (0,core.info)(`Is requiredUser: ${review.user.login} includes: ${isRequiredUser}`);
+            return isApprovedState && isRequiredUser;
+        });
         if (!approvesFromRequiredTeams.length) {
             const usersWhoApproved = approvesFromRequiredTeams.map((reivew) => reivew.user.login).join(', ');
             (0,core.info)(`Users from ${requiredUsers} who approved pr: ${usersWhoApproved}`);
