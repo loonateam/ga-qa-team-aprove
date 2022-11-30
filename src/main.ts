@@ -33,9 +33,9 @@ const run = async (input: Input) => {
       return isApprovedState && isRequiredUser;
     });
 
-    info(`ApprovesFromRequiredUser: ${JSON.stringify(approvesFromRequiredUser)}`);
+    info(`ApprovesFromRequiredUser: ${JSON.stringify(approvesFromRequiredUser, null, 2)}`);
 
-    if (!approvesFromRequiredUser.length) {
+    if (approvesFromRequiredUser.length) {
       const usersWhoApproved = approvesFromRequiredUser.map((reivew) => reivew.user.login).join(', ');
 
       info(`Users from ${requiredUsers} who approved pr: ${usersWhoApproved}`);

@@ -9738,8 +9738,8 @@ const run = (input) => __awaiter(void 0, void 0, void 0, function* () {
             (0,core.info)(`Is requiredUser: ${review.user.login} includes: ${isRequiredUser}`);
             return isApprovedState && isRequiredUser;
         });
-        (0,core.info)(`ApprovesFromRequiredUser: ${JSON.stringify(approvesFromRequiredUser)}`);
-        if (!approvesFromRequiredUser.length) {
+        (0,core.info)(`ApprovesFromRequiredUser: ${JSON.stringify(approvesFromRequiredUser, null, 2)}`);
+        if (approvesFromRequiredUser.length) {
             const usersWhoApproved = approvesFromRequiredUser.map((reivew) => reivew.user.login).join(', ');
             (0,core.info)(`Users from ${requiredUsers} who approved pr: ${usersWhoApproved}`);
             return usersWhoApproved;
