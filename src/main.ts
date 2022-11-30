@@ -24,7 +24,7 @@ const isOnTeam = async ({ client, author, teams }: IsOnTeamParams) => {
 }
 
 const run = async (input: Input) => {
-  info(`context: ${context}`);
+  info(`context: ${JSON.stringify(context)}`);
   const { githubToken, requiredTeams } = input;
   const teams = requiredTeams.split(',');
 
