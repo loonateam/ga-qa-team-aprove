@@ -9734,7 +9734,7 @@ const isOnTeam = ({ client, author, teams }) => __awaiter(void 0, void 0, void 0
     return false;
 });
 const run = (input) => __awaiter(void 0, void 0, void 0, function* () {
-    (0,core.info)(`context: ${github.context}`);
+    (0,core.info)(`context: ${JSON.stringify(github.context)}`);
     const { githubToken, requiredTeams } = input;
     const teams = requiredTeams.split(',');
     if (!teams.length)
