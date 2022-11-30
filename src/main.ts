@@ -6,12 +6,6 @@ import type { Input, IsOnTeamParams } from './types';
 const isOnTeam = async ({ client, author, teams }: IsOnTeamParams) => {
   for (const team of teams) {
     try {
-      const teams = await client.rest.teams.list({
-        org: context.payload.organization.login,
-      })
-
-      info(`Teams: ${JSON.stringify(teams)}`);
-
       const response = await client.rest.teams.getMembershipForUserInOrg({
         org: context.payload.organization.login,
         team_slug: `@${team}`,
@@ -30,13 +24,23 @@ const isOnTeam = async ({ client, author, teams }: IsOnTeamParams) => {
 }
 
 const run = async (input: Input) => {
-  info(`context: ${JSON.stringify(context)}`);
+  // info(`context: ${JSON.stringify(context)}`);
   const { githubToken, requiredTeams } = input;
   const teams = requiredTeams.split(',');
 
   if (!teams.length) return '';
 
   const client = getOctokit(githubToken);
+
+  try {
+    const teams = await client.rest.teams.list({
+      org: context.payload.organization.login,
+    })
+
+    info(`Teams: ${JSON.stringify(teams)}`);
+  } catch (err) {
+    info(`Teams err: ${err.message}`);
+  }
 
   try {
     const reviews = await client.rest.pulls.listReviews({

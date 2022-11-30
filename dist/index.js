@@ -9718,10 +9718,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 const isOnTeam = ({ client, author, teams }) => __awaiter(void 0, void 0, void 0, function* () {
     for (const team of teams) {
         try {
-            const teams = yield client.rest.teams.list({
-                org: github.context.payload.organization.login,
-            });
-            (0,core.info)(`Teams: ${JSON.stringify(teams)}`);
             const response = yield client.rest.teams.getMembershipForUserInOrg({
                 org: github.context.payload.organization.login,
                 team_slug: `@${team}`,
@@ -9738,12 +9734,21 @@ const isOnTeam = ({ client, author, teams }) => __awaiter(void 0, void 0, void 0
     return false;
 });
 const run = (input) => __awaiter(void 0, void 0, void 0, function* () {
-    (0,core.info)(`context: ${JSON.stringify(github.context)}`);
+    // info(`context: ${JSON.stringify(context)}`);
     const { githubToken, requiredTeams } = input;
     const teams = requiredTeams.split(',');
     if (!teams.length)
         return '';
     const client = (0,github.getOctokit)(githubToken);
+    try {
+        const teams = yield client.rest.teams.list({
+            org: github.context.payload.organization.login,
+        });
+        (0,core.info)(`Teams: ${JSON.stringify(teams)}`);
+    }
+    catch (err) {
+        (0,core.info)(`Teams err: ${err.message}`);
+    }
     try {
         const reviews = yield client.rest.pulls.listReviews({
             owner: github.context.repo.owner,
